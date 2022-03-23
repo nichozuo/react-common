@@ -17,7 +17,7 @@
 /coverage
 
 # umi
-.umi
+.cache
 .umi-production
 .umi-test
 .env.local
