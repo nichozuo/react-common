@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Form, Input, Popover, Button, Row, Col } from 'antd';
 import { useEffect, useState } from 'react';
 import { BgColorsOutlined } from '@ant-design/icons';
@@ -16,7 +17,7 @@ import {
   magenta,
   grey,
 } from '@ant-design/colors';
-import { FormItemProps } from '@ant-design/pro-form';
+import type { FormItemProps } from '@ant-design/pro-form';
 import React from 'react';
 
 const Content = ({ onChange }: any) => {
@@ -31,7 +32,7 @@ const Content = ({ onChange }: any) => {
                   key={index + '_' + v}
                   style={{ backgroundColor: c[v] }}
                   onClick={() => onChange(c[v])}
-                ></Col>
+                />
               );
             })}
           </Row>

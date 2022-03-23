@@ -1,9 +1,10 @@
-import { ProFormInstance } from '@ant-design/pro-form';
-import { ProTableProps } from '@ant-design/pro-table';
-import { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import type { ProFormInstance } from '@ant-design/pro-form';
+import type { ProTableProps } from '@ant-design/pro-table';
+import type { Dispatch, SetStateAction } from 'react';
+import { useEffect, useRef } from 'react';
 import type { ValueType } from 'rc-cascader/lib/Cascader';
 import { history } from 'umi';
-import { ParamsType } from '../utils/params';
+import type { ParamsType } from '../utils/params';
 
 type ResDataType = {
   code: number;
@@ -16,19 +17,11 @@ type UsePageProps = {
   resData: ResDataType | undefined;
   params?: ParamsType;
   setParams: Dispatch<SetStateAction<ParamsType>>;
-  actions: {
-    [key: string]: (...args: any) => void;
-  };
+  actions: Record<string, (...args: any) => void>;
 };
 
-export const usePage = ({
-  resData,
-  params,
-  setParams,
-  actions,
-}: UsePageProps) => {
+export const usePage = ({ resData, params, setParams, actions }: UsePageProps) => {
   const pagination = {
-    key: 'pagination',
     meta: resData?.meta,
     onChange: (page: number, pageSize: number) => {
       setParams({
@@ -74,10 +67,7 @@ export const usePage = ({
     onChange: (_1: any, _2: any, sorter: any) => {
       setParams({
         ...params,
-        table:
-          sorter.order != undefined
-            ? { orderBy: [sorter.field, sorter.order] }
-            : {},
+        table: sorter.order != undefined ? { orderBy: [sorter.field, sorter.order] } : {},
       });
     },
   };
@@ -97,6 +87,7 @@ export const usePage = ({
 
   useEffect(() => {
     search.formRef.current?.setFieldsValue(params?.search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -106,6 +97,7 @@ export const usePage = ({
       });
     }
     actions.list();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
   return {

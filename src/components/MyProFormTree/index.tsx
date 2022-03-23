@@ -1,5 +1,7 @@
-import { Tree, TreeProps } from 'antd';
-import { Key, useEffect, useState } from 'react';
+import type { TreeProps } from 'antd';
+import { Tree } from 'antd';
+import type { Key } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 
 export type MyProFormTreeProps = {

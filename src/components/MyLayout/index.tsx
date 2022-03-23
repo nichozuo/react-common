@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useHistory } from 'umi';
-import { MyModal, MyModalRefType } from '../MyModal';
+import type { MyModalRefType } from '../MyModal';
+import { MyModal } from '../MyModal';
 import StyleOne from './StyleOne';
 
 export type MyLayoutProps = {
@@ -31,6 +32,14 @@ export type MyLayoutProps = {
    * 子菜单点击事件
    */
   onSubMenuClick: (url: string) => void;
+  /**
+   * 自定义字段
+   */
+  fieldNames?: {
+    label: string;
+    value: string;
+    children: string;
+  };
 };
 
 export type MenuItemType = {
@@ -57,7 +66,11 @@ export const MyLayout = (props: MyLayoutProps) => {
   return (
     <MyModalRefContext.Provider value={ref}>
       <MyModal ref={ref} />
-      <StyleOne {...props} initPathname={pathname} />
+      <StyleOne
+        fieldNames={{ label: 'title', value: 'id', children: 'children' }}
+        {...props}
+        initPathname={pathname}
+      />
     </MyModalRefContext.Provider>
   );
 };

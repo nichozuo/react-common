@@ -2,7 +2,7 @@ import { Menu } from 'antd';
 import { useEffect, useState } from 'react';
 import { getItemByKeyPath } from '../helper';
 import _ from 'lodash';
-import { MenuItemType } from '../';
+import type { MenuItemType } from '../';
 import { MyIcon } from '../../MyIcon';
 import React from 'react';
 
@@ -19,6 +19,14 @@ type IProps = {
    * 子菜单点击事件
    */
   onSubMenuClick: (url: string) => void;
+  /**
+   * 自定义字段
+   */
+  fieldNames?: {
+    label: string;
+    value: string;
+    children: string;
+  };
 };
 
 export default (props: IProps) => {
@@ -61,7 +69,7 @@ export default (props: IProps) => {
           <Menu.SubMenu
             key={item.id}
             icon={item.icon && <MyIcon type={item.icon} size={12} />}
-            title={item.name}
+            title={item[props.fieldNames?.label || 'title']}
             onTitleClick={onTitleClick}
           >
             {item.children?.map((subItem: any) => {
@@ -70,7 +78,7 @@ export default (props: IProps) => {
                   key={subItem.id}
                   icon={subItem.icon && <MyIcon type={subItem.icon} size={12} />}
                 >
-                  {subItem.name}
+                  {subItem[props.fieldNames?.label || 'title']}
                 </Menu.Item>
               );
             })}

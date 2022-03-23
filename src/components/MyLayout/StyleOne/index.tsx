@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/jsx-key */
 import { useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Layout, Avatar, Dropdown, Menu } from 'antd';
@@ -12,7 +10,7 @@ import {
   getDefaultSelectedKeysFromUrl,
   getSubMenusFromSelectedMainMenu,
 } from '../helper';
-import { MenuItemType, MyLayoutProps } from '../';
+import type { MenuItemType, MyLayoutProps } from '../';
 import React from 'react';
 
 export default ({
@@ -22,6 +20,7 @@ export default ({
   onLogout,
   children,
   onSubMenuClick,
+  fieldNames,
 }: MyLayoutProps) => {
   // 初始化选中菜单数据
   // 页面刷新时，根据路径获得选中菜单的列表
@@ -54,6 +53,7 @@ export default ({
         <MainMenu
           menus={mainMenus}
           defaultSelectedKeys={defaultSelectedKeys}
+          fieldNames={fieldNames}
           onChange={(item: MenuItemType) => setSubMenus(item.children)}
         />
       </Layout.Sider>
@@ -92,6 +92,7 @@ export default ({
             <SubMenu
               menus={subMenus}
               defaultSelectedKeys={defaultSelectedKeys}
+              fieldNames={fieldNames}
               onSubMenuClick={onSubMenuClick}
             />
           </Layout.Sider>

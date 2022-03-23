@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
 import { history, request } from 'umi';
 import { message } from 'antd';
-import { getDataFromParams, getParamsFromUrl, getUrl, ParamsType } from '../utils/params';
-import { MyModalRefType } from '../components/MyModal';
+import type { ParamsType } from '../utils/params';
+import { getDataFromParams, getParamsFromUrl, getUrl } from '../utils/params';
+import type { MyModalRefType } from '../components/MyModal';
 import { MyModalRefContext } from '../components/MyLayout';
-import { ResponseDataType } from '../utils/request';
+import type { ResponseDataType } from '../utils/request';
 
 export type useActionsProps = {
   /**
@@ -14,16 +15,12 @@ export type useActionsProps = {
   /**
    * 请求的地址后面的部分，相当于后端的actionName
    */
-  uris?: {
-    [key: string]: any;
-  };
+  uris?: Record<string, any>;
   /**
    * 默认的参数
    */
   defaultParams?: Record<string, any> | undefined; // search参数
-  otherApi?: {
-    [key: string]: (...args: any) => void;
-  };
+  otherApi?: Record<string, (...args: any) => void>;
 };
 
 export const useActions = ({ baseUri, uris, defaultParams, otherApi }: useActionsProps) => {

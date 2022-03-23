@@ -1,4 +1,5 @@
-import { Button, ButtonProps, Popconfirm } from 'antd';
+import type { ButtonProps } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import {
   PlusSquareOutlined,
   EditOutlined,

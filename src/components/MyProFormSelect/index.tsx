@@ -1,5 +1,5 @@
 import { ProFormSelect } from '@ant-design/pro-form';
-import { ProFormSelectProps } from '@ant-design/pro-form/lib/components/Select';
+import type { ProFormSelectProps } from '@ant-design/pro-form/lib/components/Select';
 import React from 'react';
 
 export const MyProFormSelect = ({

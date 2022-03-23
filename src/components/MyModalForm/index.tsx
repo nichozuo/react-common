@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-key */
-import ProForm, { ProFormProps } from '@ant-design/pro-form';
+import type { ProFormProps } from '@ant-design/pro-form';
+import ProForm from '@ant-design/pro-form';
 import { Row, Col, Space, Button } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 import React from 'react';

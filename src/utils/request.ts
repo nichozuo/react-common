@@ -45,7 +45,7 @@ export const request = {
           msg.error(message);
           break;
         default:
-          notification['error']({
+          notification.error({
             message: message,
             description: description,
           });

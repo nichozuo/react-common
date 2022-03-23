@@ -22,10 +22,10 @@ export const getDataFromParams = (params: ParamsType) => {
 };
 
 export const getParamsFromUrl = (
-  q: string | undefined,
+  query: string | undefined,
   defaultParams: Record<string, any> | undefined = undefined,
 ) => {
-  q = q == '{}' || q == undefined ? undefined : JSON.parse(q);
+  const q = query == '{}' || query == undefined ? undefined : JSON.parse(query);
   if (!q && !defaultParams) return undefined;
   else if (!q && defaultParams) return { search: defaultParams };
   else if (q && !defaultParams) return q;
@@ -33,6 +33,6 @@ export const getParamsFromUrl = (
 };
 
 export const getUrl = (baseUri: string, uri: string, defaultUri: string) => {
-  uri = uri == undefined ? defaultUri : uri;
-  return baseUri + '/' + uri;
+  const url = uri == undefined ? defaultUri : uri;
+  return baseUri + '/' + url;
 };

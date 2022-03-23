@@ -1,4 +1,4 @@
-import { MenuItemType } from './';
+import type { MenuItemType } from './';
 
 /**
  * 点击菜单后，获得keyPath，递归换取对象
