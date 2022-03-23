@@ -40,26 +40,41 @@ export const useActions = ({ baseUri, uris, defaultParams, otherApi }: useAction
         setResData(res);
       });
     },
-    store: (values: any) => {
-      request(getUrl(baseUri, uris?.store, 'store'), { data: values }).then(() => {
+    store: (data: any) => {
+      request(getUrl(baseUri, uris?.store, 'store'), { data: data }).then(() => {
         message.success('操作成功');
         modalRef.current?.hideModal();
         actions.list();
       });
     },
-    update: (values: any) => {
-      request(getUrl(baseUri, uris?.update, 'update'), { data: values }).then(() => {
+    update: (data: any) => {
+      request(getUrl(baseUri, uris?.update, 'update'), { data: data }).then(() => {
         message.success('操作成功');
         modalRef.current?.hideModal();
         actions.list();
       });
     },
-    // softDelete: (data: any) => {
-    //   if(data.deleted_at)
-    //   request(getUrl(baseUri, uris?.delete, 'delete'), data).then(() =>
-    //     message.success('软删除成功！'),
-    //   );
-    // },
+    softDelete: (data: any) => {
+      if (!data.deleted_at)
+        request(getUrl(baseUri, uris?.softDelete, 'soft_delete'), { data: { id: data.id } }).then(
+          () => {
+            message.success('软删除成功！');
+            actions.list();
+          },
+        );
+      else
+        request(getUrl(baseUri, uris?.restore, 'restore'), { data: { id: data.id } }).then(() => {
+          message.success('恢复成功！');
+          actions.list();
+        });
+    },
+    restore: (data: any) => {
+      if (data.deleted_at)
+        request(getUrl(baseUri, uris?.restore, 'restore'), { data: data }).then(() => {
+          message.success('软删除成功！');
+          actions.list();
+        });
+    },
     delete: (data: any) => {
       request(getUrl(baseUri, uris?.delete, 'delete'), { data: data }).then(() => {
         message.success('删除成功！');

@@ -2,16 +2,8 @@
 @sub-sider-width: 150px;
 @header-height: 50px;
 
-.main-layout {
-  .loading {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: calc(100vh - @header-height);
-  }
-  .sider {
+.my-layout {
+  &-sider {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -19,68 +11,15 @@
     z-index: 999;
     height: 100vh;
     overflow: auto;
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100px;
-      color: #fff;
-      .logo-div {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        background-color: #fbfbfa;
-        border-radius: 60px;
-        img {
-          width: 35px;
-          height: 35px;
-        }
-      }
+    .ant-menu-dark .ant-menu-item-selected {
+      border-left: 5px solid #a1baff;
     }
-    .ant-menu-title-content {
-      display: inline-block;
-      height: 40px;
-      padding-left: 8px;
+    .ant-menu-item {
       font-size: 12px;
-      line-height: 40px;
-      vertical-align: top;
-    }
-    .ant-menu-item-selected {
-      color: #1890ff;
-      background-color: #fff !important;
     }
   }
-  .header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: @sider-width;
-    z-index: 99;
-    height: @header-height;
-    padding-left: 20px;
-    line-height: @header-height;
-    background-color: #fff;
-    box-shadow: 0px 1px 10px 0 #f8f8f8;
-    .header-avatar {
-      display: flex;
-      .label {
-        flex: 1;
-        color: #333;
-        font-weight: 450;
-        font-size: 15px;
-      }
-      .header-admin-name {
-        color: #333;
-        cursor: pointer;
-        .name {
-          padding: 0 10px;
-        }
-      }
-    }
-  }
-  .sub-sider {
+
+  &-subsider {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -88,19 +27,72 @@
     padding-top: @header-height;
     background-color: #fff;
     border-right: 1px solid #f0f0f0;
-    .ant-menu-title-content {
-      padding-left: 8px;
+    .ant-menu-light .ant-menu-item-selected {
+      background-color: rgba(230, 247, 255, 1);
+    }
+    .ant-menu-item,
+    .ant-menu-submenu {
       font-size: 12px;
     }
-    .ant-menu-sub {
-      .ant-menu-item {
-        padding-left: 24px !important;
-      }
-      .ant-menu-item-selected {
-        background-color: rgba(230, 247, 255, 1) !important;
-      }
+    .ant-menu-sub .ant-menu-item {
+      padding-left: 24px !important;
     }
   }
+
+  &-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: @sider-width;
+    z-index: 99;
+    display: flex;
+    height: @header-height;
+    padding-left: 20px;
+    line-height: @header-height;
+    background-color: #fff;
+    box-shadow: 0px 1px 10px 0 #f8f8f8;
+  }
+
+  &-title {
+    flex: 1;
+    color: #333;
+    font-weight: 450;
+    font-size: 15px;
+  }
+
+  .my-logo {
+    width: 35px;
+    height: 35px;
+    &-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100px;
+      color: #fff;
+    }
+    &-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background-color: #fbfbfa;
+      border-radius: 60px;
+    }
+  }
+
+  .my-avatar {
+    color: #f56a00;
+    background-color: #fde3cf;
+    + span {
+      padding: 0 10px;
+    }
+    &-wrap {
+      color: #333;
+      cursor: pointer;
+    }
+  }
+
   .ant-layout-content {
     position: absolute;
     top: 0;
@@ -109,15 +101,6 @@
     width: auto !important;
     min-height: 100vh;
     padding: calc(@header-height + 15px) 15px 15px 15px;
-    // margin: @header-height 10px 20px calc(20px + @sider-width + @sub-sider-width);
     background-color: #f5f5f5;
-  }
-}
-.ant-table-row {
-  .ant-btn {
-    padding: 0 5px;
-  }
-  .ant-card-body {
-    padding: 0;
   }
 }

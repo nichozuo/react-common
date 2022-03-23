@@ -22,15 +22,11 @@ export type MyLogin1Props = {
 export const MyLogin1 = (props: MyLogin1Props) => {
   return (
     <>
-      <div className="login1-container">
+      <div className="my-login1">
         <div className="form_content">
           <div className="form_title">{props.title}</div>
           <div>
-            <LoginForm
-              isKeyPressSubmit
-              autoFocusFirstInput
-              onFinish={props.doLogin}
-            >
+            <LoginForm isKeyPressSubmit autoFocusFirstInput onFinish={props.doLogin}>
               <ProFormText
                 fieldProps={{
                   size: 'large',

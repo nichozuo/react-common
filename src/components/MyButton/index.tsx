@@ -1,4 +1,5 @@
 import type { ButtonProps } from 'antd';
+import { Tag } from 'antd';
 import { Button, Popconfirm } from 'antd';
 import {
   PlusSquareOutlined,
@@ -7,6 +8,8 @@ import {
   DownOutlined,
   QuestionCircleOutlined,
   DeleteOutlined,
+  CloseCircleOutlined,
+  CheckCircleOutlined,
 } from '@ant-design/icons';
 import React from 'react';
 
@@ -99,16 +102,53 @@ const DeleteButton = ({
   );
 };
 
+/**
+ * 软删除按钮
+ * @param param0
+ * @returns
+ */
+const SoftDelete = ({
+  deleted_at,
+  onConfirm,
+}: {
+  deleted_at: string | undefined;
+  onConfirm: (e?: React.MouseEvent<HTMLElement, MouseEvent> | undefined) => void;
+}) => {
+  return (
+    <Popconfirm
+      title={deleted_at ? '确定要恢复？' : '确定要禁用？'}
+      icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+      onConfirm={onConfirm}
+    >
+      <Tag color={deleted_at ? 'gray' : 'green'} style={{ cursor: 'pointer' }}>
+        {deleted_at ? (
+          <>
+            <CloseCircleOutlined />
+            已禁用
+          </>
+        ) : (
+          <>
+            <CheckCircleOutlined />
+            已启用
+          </>
+        )}
+      </Tag>
+    </Popconfirm>
+  );
+};
+
 const Buttons: {
   Create: typeof CreateButton;
   Edit: typeof EditButton;
   Delete: typeof DeleteButton;
   Move: typeof MoveButton;
+  SoftDelete: typeof SoftDelete;
 } = {} as any;
 
 Buttons.Create = CreateButton;
 Buttons.Edit = EditButton;
 Buttons.Delete = DeleteButton;
 Buttons.Move = MoveButton;
+Buttons.SoftDelete = SoftDelete;
 
 export const MyButton = Buttons;

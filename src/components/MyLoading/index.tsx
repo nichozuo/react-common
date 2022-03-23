@@ -15,7 +15,7 @@ export const MyLoading = ({ count = 0 }: MyLoadingProps) => {
   return (
     <>
       {count > 0 && (
-        <div className="loading-container">
+        <div className="my-loading">
           <Spin size="large" />
         </div>
       )}
