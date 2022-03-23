@@ -70,7 +70,7 @@ export const request = {
   },
   // 请求拦截，加token
   requestInterceptors: [
-    (url, options) => {
+    (url: string, options: any) => {
       loading.add();
       return {
         url: url,
@@ -85,7 +85,7 @@ export const request = {
   ],
   // 响应拦截
   responseInterceptors: [
-    async (response) => {
+    async (response: any) => {
       loading.sub();
       return response;
     },
