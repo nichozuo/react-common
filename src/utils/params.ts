@@ -32,7 +32,7 @@ export const getParamsFromUrl = (
   else return q;
 };
 
-export const getUrl = (baseUri: string, uri: string, defaultUri: string) => {
+export const getUrl = (baseUri: string, defaultUri: string, uri?: string) => {
   const url = uri == undefined ? defaultUri : uri;
   return baseUri + '/' + url;
 };
