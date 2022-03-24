@@ -1,11 +1,22 @@
 import { useContext, useState } from 'react';
 import { history, request } from 'umi';
 import { message } from 'antd';
-import type { ParamsType } from '../utils/params';
+import { MyModalRefContext } from '../components/MyLayout';
 import { getDataFromParams, getParamsFromUrl, getUrl } from '../utils/params';
 import type { MyModalRefType } from '../components/MyModal';
-import { MyModalRefContext } from '../components/MyLayout';
 import type { ResponseDataType } from '../utils/request';
+import type { ParamsType } from '../utils/params';
+
+type DefaultActionType = 'list' | 'store' | 'update' | 'softDelete' | 'restore' | 'delete';
+
+export type Actions = {
+  list: () => void;
+  store: (data: Record<string, any>) => void;
+  update: (data: Record<string, any>) => void;
+  softDelete: (data: Record<string, any>) => void;
+  restore: (data: Record<string, any>) => void;
+  delete: (data: Record<string, any>) => void;
+};
 
 export type useActionsProps = {
   /**
@@ -15,15 +26,14 @@ export type useActionsProps = {
   /**
    * 请求的地址后面的部分，相当于后端的actionName
    */
-  uris?: Record<string, any>;
+  uris?: Partial<Record<DefaultActionType, string>>;
   /**
    * 默认的参数
    */
-  defaultParams?: Record<string, any> | undefined; // search参数
-  otherApi?: Record<string, (...args: any) => void>;
+  defaultParams?: Record<string, any>; // search参数
 };
 
-export const useActions = ({ baseUri, uris, defaultParams, otherApi }: useActionsProps) => {
+export const useActions = ({ baseUri, uris, defaultParams }: useActionsProps) => {
   const modalRef = useContext(MyModalRefContext) as React.MutableRefObject<
     MyModalRefType | undefined
   >;
@@ -34,55 +44,47 @@ export const useActions = ({ baseUri, uris, defaultParams, otherApi }: useAction
     () => getParamsFromUrl(history.location.query?.q as string, defaultParams) as ParamsType,
   );
 
-  const actions = {
+  const actions: Actions = {
     list: () => {
-      request(getUrl(baseUri, uris?.list, 'list'), getDataFromParams(params)).then((res: any) => {
+      request(getUrl(baseUri, 'list', uris?.list), getDataFromParams(params)).then((res: any) => {
         setResData(res);
       });
     },
-    store: (data: any) => {
-      request(getUrl(baseUri, uris?.store, 'store'), { data: data }).then(() => {
-        message.success('操作成功');
+    store: (data) => {
+      request(getUrl(baseUri, 'store', uris?.store), { data }).then(() => {
+        message.success('保存成功！');
         modalRef.current?.hideModal();
         actions.list();
       });
     },
-    update: (data: any) => {
-      request(getUrl(baseUri, uris?.update, 'update'), { data: data }).then(() => {
-        message.success('操作成功');
+    update: (data) => {
+      request(getUrl(baseUri, 'update', uris?.update), { data }).then(() => {
+        message.success('更新成功！');
         modalRef.current?.hideModal();
         actions.list();
       });
     },
-    softDelete: (data: any) => {
-      if (!data.deleted_at)
-        request(getUrl(baseUri, uris?.softDelete, 'soft_delete'), { data: { id: data.id } }).then(
-          () => {
-            message.success('软删除成功！');
-            actions.list();
-          },
-        );
-      else
-        request(getUrl(baseUri, uris?.restore, 'restore'), { data: { id: data.id } }).then(() => {
-          message.success('恢复成功！');
+    softDelete: (data) => {
+      request(getUrl(baseUri, 'soft_delete', uris?.softDelete), { data: { id: data.id } }).then(
+        () => {
+          message.success('操作成功！');
           actions.list();
-        });
+        },
+      );
     },
-    restore: (data: any) => {
-      if (data.deleted_at)
-        request(getUrl(baseUri, uris?.restore, 'restore'), { data: data }).then(() => {
-          message.success('软删除成功！');
-          actions.list();
-        });
+    restore: (data) => {
+      request(getUrl(baseUri, 'restore', uris?.restore), { data: { id: data.id } }).then(() => {
+        message.success('操作成功！');
+        actions.list();
+      });
     },
-    delete: (data: any) => {
-      request(getUrl(baseUri, uris?.delete, 'delete'), { data: data }).then(() => {
+    delete: (data) => {
+      request(getUrl(baseUri, 'delete', uris?.delete), { data: { id: data.id } }).then(() => {
         message.success('删除成功！');
         actions.list();
       });
     },
-    ...otherApi,
-  } as any;
+  };
 
   return {
     resData,

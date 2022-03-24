@@ -1,9 +1,9 @@
+import { history } from 'umi';
+import { useEffect, useRef } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import type { ProFormInstance } from '@ant-design/pro-form';
 import type { ProTableProps } from '@ant-design/pro-table';
-import type { Dispatch, SetStateAction } from 'react';
-import { useEffect, useRef } from 'react';
 import type { ValueType } from 'rc-cascader/lib/Cascader';
-import { history } from 'umi';
 import type { ParamsType } from '../utils/params';
 
 type ResDataType = {
@@ -16,11 +16,19 @@ type ResDataType = {
 type UsePageProps = {
   resData: ResDataType | undefined;
   params?: ParamsType;
+  // 是否需要通过改变页面路由参数来保存请求参数，默认是
+  isChangeHref?: boolean;
   setParams: Dispatch<SetStateAction<ParamsType>>;
   actions: Record<string, (...args: any) => void>;
 };
 
-export const usePage = ({ resData, params, setParams, actions }: UsePageProps) => {
+export const usePage = ({
+  resData,
+  params,
+  isChangeHref = true,
+  setParams,
+  actions,
+}: UsePageProps) => {
   const pagination = {
     meta: resData?.meta,
     onChange: (page: number, pageSize: number) => {
@@ -87,17 +95,17 @@ export const usePage = ({ resData, params, setParams, actions }: UsePageProps) =
 
   useEffect(() => {
     search.formRef.current?.setFieldsValue(params?.search);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    if (JSON.stringify(params) !== '{}' && params) {
+    if (isChangeHref && JSON.stringify(params) !== '{}' && params) {
+      const query = history.location.query || {};
+      delete query.q;
       history.replace({
-        query: { q: JSON.stringify(params) },
+        query: { ...query, q: JSON.stringify(params) },
       });
     }
     actions.list();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
   return {
