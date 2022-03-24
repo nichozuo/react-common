@@ -9,6 +9,15 @@ import type { ParamsType } from '../utils/params';
 
 type DefaultActionType = 'list' | 'store' | 'update' | 'softDelete' | 'restore' | 'delete';
 
+export type Actions = {
+  list: () => void;
+  store: (data: Record<string, any>) => void;
+  update: (data: Record<string, any>) => void;
+  softDelete: (data: Record<string, any>) => void;
+  restore: (data: Record<string, any>) => void;
+  delete: (data: Record<string, any>) => void;
+};
+
 export type useActionsProps = {
   /**
    * 请求的地址前面的部分，相当于后端的controllerName
@@ -21,7 +30,7 @@ export type useActionsProps = {
   /**
    * 默认的参数
    */
-  defaultParams?: Record<string, any> | undefined; // search参数
+  defaultParams?: Record<string, any>; // search参数
 };
 
 export const useActions = ({ baseUri, uris, defaultParams }: useActionsProps) => {
@@ -35,27 +44,27 @@ export const useActions = ({ baseUri, uris, defaultParams }: useActionsProps) =>
     () => getParamsFromUrl(history.location.query?.q as string, defaultParams) as ParamsType,
   );
 
-  const actions = {
+  const actions: Actions = {
     list: () => {
       request(getUrl(baseUri, 'list', uris?.list), getDataFromParams(params)).then((res: any) => {
         setResData(res);
       });
     },
-    store: (data: any) => {
-      request(getUrl(baseUri, 'store', uris?.store), { data: data }).then(() => {
+    store: (data) => {
+      request(getUrl(baseUri, 'store', uris?.store), { data }).then(() => {
         message.success('保存成功！');
         modalRef.current?.hideModal();
         actions.list();
       });
     },
-    update: (data: any) => {
-      request(getUrl(baseUri, 'update', uris?.update), { data: data }).then(() => {
+    update: (data) => {
+      request(getUrl(baseUri, 'update', uris?.update), { data }).then(() => {
         message.success('更新成功！');
         modalRef.current?.hideModal();
         actions.list();
       });
     },
-    softDelete: (data: any) => {
+    softDelete: (data) => {
       request(getUrl(baseUri, 'soft_delete', uris?.softDelete), { data: { id: data.id } }).then(
         () => {
           message.success('操作成功！');
@@ -63,13 +72,13 @@ export const useActions = ({ baseUri, uris, defaultParams }: useActionsProps) =>
         },
       );
     },
-    restore: (data: any) => {
+    restore: (data) => {
       request(getUrl(baseUri, 'restore', uris?.restore), { data: { id: data.id } }).then(() => {
         message.success('操作成功！');
         actions.list();
       });
     },
-    delete: (data: any) => {
+    delete: (data) => {
       request(getUrl(baseUri, 'delete', uris?.delete), { data: { id: data.id } }).then(() => {
         message.success('删除成功！');
         actions.list();
